@@ -614,6 +614,33 @@ function twentyseventeen_widget_tag_cloud_args( $args ) {
 }
 add_filter( 'widget_tag_cloud_args', 'twentyseventeen_widget_tag_cloud_args' );
 
+function my_prefix_send_email_to_admin() {
+    /**
+     * At this point, $_GET/$_POST variable are available
+     *
+     * We can do our normal processing here
+     */ 
+
+	// Sanitize the POST field
+	// save query
+	$firstname = filter_input(INPUT_POST, 'first-name', FILTER_SANITIZE_STRING);
+	$lastname  = filter_input(INPUT_POST, 'last-name', FILTER_SANITIZE_STRING);
+	$email     = filter_input(INPUT_POST, 'your-email', FILTER_SANITIZE_EMAIL);
+	$date      = date("Y-m-d");
+	$mydb      = new wpdb('wordpressdb', 'password', 'wpdemo', 'localhost');
+	$query     = "INSERT INTO contact_form_backup (first_name, last_name, email, date_submitted) VALUES
+					  (%s, %s, %s, %s)";
+
+	$mydb->query(
+		$mydb->prepare(
+			$query,
+			$firstname, $lastname, $email, $date
+		)
+	);
+
+}
+add_action('wpcf7_before_send_mail', 'my_prefix_send_email_to_admin');
+
 /**
  * Get unique ID.
  *
