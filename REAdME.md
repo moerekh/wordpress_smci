@@ -17,3 +17,5 @@ I used the twentyseventeen theme.
 `wp-content/themes/twentyseventeen/functions.php`
 
 Lines 617-642 show the function I created.
+
+Please email me if you have questions.
